@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\CategoryType.cs" />
     <Compile Include="Models\GDriveHelper.cs" />
     <Compile Include="Models\LoadData.cs" />
     <Compile Include="ViewModels\AnalysisViewModel.cs" />
@@ -88,8 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\BudgetItem.cs" />
-    <Compile Include="Models\BudgetTable.cs" />
-    <Compile Include="Models\Date.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

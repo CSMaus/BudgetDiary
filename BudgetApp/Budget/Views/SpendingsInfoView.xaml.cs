@@ -1,4 +1,5 @@
 ﻿using Budget.Models;
+using Budget.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,15 +18,13 @@ using System.Windows.Shapes;
 
 namespace Budget.Views
 {
-    /// <summary>
-    /// Interaction logic for SpendingsInfoView.xaml
-    /// </summary>
     public partial class SpendingsInfoView : UserControl
     {
         
         public SpendingsInfoView()
         {
             InitializeComponent();
+            DataContext = new SpendingsInfoViewModel();
         }
     }
 }

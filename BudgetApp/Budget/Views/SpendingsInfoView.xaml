@@ -8,19 +8,38 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Date" Margin="2"/>
+            <DatePicker SelectedDate="{Binding Date, Mode=TwoWay}" Margin="2"/>
+
+            <TextBlock Text="Product Name" Margin="5, 2, 2, 2"/>
+            <TextBox Text="{Binding ProductName, Mode=TwoWay}" MinWidth="70" Margin="2"/>
+            
+            <TextBlock Text="Product Price" Margin="5, 2, 2, 2"/>
+            <TextBox Text="{Binding ProductPrice, Mode=TwoWay, StringFormat=F2}" MinWidth="70" Margin="2"/>
+            <TextBlock Text=" KRW" Margin="2"/>
+            <Button Content="Add" Command="{Binding AddItemCommand}" Margin="5, 2, 2, 2"/>
+        </StackPanel>
+
         <DataGrid ItemsSource="{Binding BudgetItems}" AutoGenerateColumns="False"
-          CanUserResizeColumns="True"
-          CanUserResizeRows="True"
-          BorderThickness="0">
+          CanUserResizeColumns="True" CanUserResizeRows="True" Grid.Row="1"
+          BorderThickness="1">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="*"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="60"/>
+                <DataGridTextColumn Header="WeekDay" Binding="{Binding WeekDay}" Width="60"/>
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="65"/>
+                <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" Width="65"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding ProductPrice}" Width="50"/>
+                <!-- Old version for expanding/collapsing items-->
+                <!--
                 <DataGridTemplateColumn Header="Details" Width="2*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -31,7 +50,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="Products" FontWeight="Bold"/>
-                                    <ItemsControl Grid.Column="1" ItemsSource="{Binding ProductNames}">
+                                    <ItemsControl Grid.Column="1" ItemsSource="{Binding Category}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding}"/>
@@ -58,9 +77,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                -->
             </DataGrid.Columns>
         </DataGrid>
-
-
     </Grid>
 </UserControl>

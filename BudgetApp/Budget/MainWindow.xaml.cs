@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Budget.Models;
+using Budget.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,14 +17,15 @@ using System.Windows.Shapes;
 
 namespace Budget
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private SpendingsInfoView spendingsInfoView;
         public MainWindow()
         {
             InitializeComponent();
+
+            spendingsInfoView = new SpendingsInfoView();
+            BudgetTable.Navigate(spendingsInfoView);
         }
     }
 }

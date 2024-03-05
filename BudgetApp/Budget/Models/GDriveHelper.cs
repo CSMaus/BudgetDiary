@@ -15,7 +15,7 @@ namespace Budget.Models
     {
         // NuGet Google.Apis.Drive.v3
         // NuGet Newtonsoft.Json
-
+        /*
         static DriveService AuthenticateOauth(string clientId, string clientSecret, string userName)
         {
             string[] scopes = new string[] { DriveService.Scope.Drive };
@@ -73,6 +73,6 @@ namespace Budget.Models
                 request.Download(fileStream);
             }
         }
-
+        */
     }
 }

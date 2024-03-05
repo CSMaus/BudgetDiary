@@ -70,12 +70,12 @@ namespace Budget.Models
     [
       {
         "Date": "2024-03-15",
-        "ProductNames": ["Product1", "Product2"],
+        "Category": ["Product1", "Product2"],
         "Price": [9.99, 15.99]
       },
       {
         "Date": "2024-03-16",
-        "ProductNames": ["Product3", "Product4"],
+        "Category": ["Product3", "Product4"],
         "Price": [5.99, 7.49]
       }
     ]
