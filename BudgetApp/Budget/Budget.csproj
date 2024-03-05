@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\GDriveHelper.cs" />
+    <Compile Include="Models\LoadData.cs" />
     <Compile Include="ViewModels\AnalysisViewModel.cs" />
     <Compile Include="ViewModels\SpendingsInfoViewModel.cs" />
     <Compile Include="Views\AnalysisView.xaml.cs">
@@ -117,6 +118,9 @@
   <ItemGroup>
     <PackageReference Include="Google.Apis.Drive.v3">
       <Version>1.67.0.3309</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

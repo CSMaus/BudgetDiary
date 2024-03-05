@@ -14,6 +14,7 @@ namespace Budget.Models
     public static class GDriveHelper
     {
         // NuGet Google.Apis.Drive.v3
+        // NuGet Newtonsoft.Json
 
         static DriveService AuthenticateOauth(string clientId, string clientSecret, string userName)
         {

@@ -7,6 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+
+// NuGet Google.Apis.Drive.v3
+// NuGet Newtonsoft.Json
+
 namespace Budget.ViewModels
 {
     // Answer the qiuestions:
@@ -14,17 +18,22 @@ namespace Budget.ViewModels
     // how it will be easy understandable for the user to fast check his spends?
     // how should look proper structure if user want to see, on what exactly he spend amount for certain category?
     // add posibility to display each day as circle chart? Each category, each day/month/year?
+
     public class SpendingsInfoViewModel
     {
-        public BudgetItem BudgetItemInput { get; set; }
-        public ObservableCollection<BudgetTable> BudgetTableRows { get; set; }
+        private string budgetJsonFilePath;
+        public ObservableCollection<BudgetItem> BudgetItems { get; set; }
+
+        public string Date { get; set; }
+        public string ProductName { get; set; }
+        public float Price { get; set; }
 
         public ICommand AddItemCommand { get; set; }
 
         public SpendingsInfoViewModel()
         {
-            BudgetItemInput = new BudgetItem();
-            BudgetTableRows = new ObservableCollection<BudgetTable>();
+            budgetJsonFilePath = LoadData.EnsureDirectoryAndSaveFile();
+            BudgetItems = LoadData.LoadDataFromLocalFile(budgetJsonFilePath);
 
             // TODO:
             // Read current date by accesinbg date from the system
@@ -36,17 +45,7 @@ namespace Budget.ViewModels
 
         public void AddItem()
         {
-            BudgetTableRows.Add(new BudgetTable
-            {
-                DateMoney = new Date
-                {
-                    Day = DateTime.Now.Day.ToString(),
-                    Month = DateTime.Now.Month.ToString(),
-                    Year = DateTime.Now.Year.ToString()
-                },
-                // BudgetItem = BudgetItemInput need to calculate summ by categories
-                // also, need to rethink archintechture of displayed spendings
-            });
+
         }
 
         public void ReadCurrentTable()

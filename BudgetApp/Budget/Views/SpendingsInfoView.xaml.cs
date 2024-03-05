@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Budget.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +22,7 @@ namespace Budget.Views
     /// </summary>
     public partial class SpendingsInfoView : UserControl
     {
+        
         public SpendingsInfoView()
         {
             InitializeComponent();
