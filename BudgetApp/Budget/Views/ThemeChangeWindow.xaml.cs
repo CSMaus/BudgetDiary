@@ -1,88 +1,171 @@
 ﻿using Budget.Utilities;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Budget.Views
 {
     public partial class ThemeChangeWindow : Window
     {
+        // NUGet: Extended.Wpf.Toolkit
         // TODO: setup via rgb. connection RGB and Hex
-        // TODO: define color by pointer (at any place, even outside window)
+        // TODO: define color via pipette (at any place, even outside window)
         private string[] ColorItems = new string[]
         {
             "Foreground",
-            "BordersColor",
             "MainBackground",
             "Background",
+            "BordersColor",
             "OnPressed",
             "OnSelected",
             "Gradient1",
             "Gradient2"
         };
+
+        private string FocusedTextBox = "";
+
+        /// ////////////////////////////////  PIPETTE  //////////////////////////////////////////
+        private bool _isColorPickingMode = false;
+
+        [DllImport("user32.dll")]
+        static extern bool GetCursorPos(out POINT lpPoint);
+
+        [DllImport("gdi32.dll")]
+        static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetDC(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int X;
+            public int Y;
+        }
+
         public ThemeChangeWindow()
         {
             InitializeComponent();
             LoadCurrentThemeColors();
         }
+
         private void ResetTheme_Click(object sender, RoutedEventArgs e)
         {
             ChangeAppTheme.ResetColors();
             LoadCurrentThemeColors();
         }
 
+        private void PickColor_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string cursorUri = "pack://application:,,,/Budget;component/Views/Pen.cur";
+
+                this.Cursor = new Cursor(System.Windows.Application.GetResourceStream(new Uri(cursorUri)).Stream);
+                FocusedTextBox = (sender as Button).Tag.ToString();
+                _isColorPickingMode = true;
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show($"Failed to load the Pen cursor: {ex.Message}");
+            }
+        }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (_isColorPickingMode && e.LeftButton == MouseButtonState.Pressed)
+            {
+                GetCursorPos(out POINT cursorPos);
+                IntPtr screenDC = GetDC(IntPtr.Zero);
+
+                uint colorRef = GetPixel(screenDC, cursorPos.X, cursorPos.Y);
+                ReleaseDC(IntPtr.Zero, screenDC);
+
+                byte r = (byte)(colorRef & 0xFF);
+                byte g = (byte)((colorRef >> 8) & 0xFF);
+                byte b = (byte)((colorRef >> 16) & 0xFF);
+
+                Color color = Color.FromRgb(r, g, b);
+                var colorHex = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+                CheckAndUpdateColor(FocusedTextBox, colorHex, sender);
+
+                TextBox textBox = FindName($"color{FocusedTextBox}Hex") as TextBox;
+                textBox.Text = colorHex;
+
+                this.Cursor = Cursors.Arrow;
+                _isColorPickingMode = false;
+            }
+        }
+
         private void LoadCurrentThemeColors()
         {
-            if (Application.Current.Resources.Contains("Foreground"))
+            var appResources = System.Windows.Application.Current.Resources;
+            if (appResources.Contains("Foreground"))
             {
-                var brush = Application.Current.Resources["Foreground"] as SolidColorBrush;
+                var brush = appResources["Foreground"] as SolidColorBrush;
                 colorForegroundHex.Text = brush.Color.ToString();
             }
-            if (Application.Current.Resources.Contains("MainBackground"))
+            if (appResources.Contains("MainBackground"))
             {
-                var brush = Application.Current.Resources["MainBackground"] as SolidColorBrush;
+                var brush = appResources["MainBackground"] as SolidColorBrush;
                 colorMainBackgroundHex.Text = brush.Color.ToString();
             }
-            if(Application.Current.Resources.Contains("Background"))
+            if(appResources.Contains("Background"))
             {
-                var brush = Application.Current.Resources["Background"] as SolidColorBrush;
+                var brush = appResources["Background"] as SolidColorBrush;
                 colorBackgroundHex.Text = brush.Color.ToString();
             }
-            if(Application.Current.Resources.Contains("BordersColor"))
+            if(appResources.Contains("BordersColor"))
             {
-                var brush = Application.Current.Resources["BordersColor"] as SolidColorBrush;
+                var brush = appResources["BordersColor"] as SolidColorBrush;
                 colorBordersColorHex.Text = brush.Color.ToString();
             }
-            if(Application.Current.Resources.Contains("OnPressed"))
+            if(appResources.Contains("OnPressed"))
             {
-                var brush = Application.Current.Resources["OnPressed"] as SolidColorBrush;
+                var brush = appResources["OnPressed"] as SolidColorBrush;
                 colorOnPressedHex.Text = brush.Color.ToString();
             }
-            if(Application.Current.Resources.Contains("OnSelected"))
+            if(appResources.Contains("OnSelected"))
             {
-                var brush = Application.Current.Resources["OnSelected"] as SolidColorBrush;
+                var brush = appResources["OnSelected"] as SolidColorBrush;
                 colorOnSelectedHex.Text = brush.Color.ToString();
             }
-            if(Application.Current.Resources.Contains("Gradient1"))
+            if(appResources.Contains("Gradient1"))
             {
-                var color = (Color)Application.Current.Resources["Gradient1"];
+                var color = (Color)appResources["Gradient1"];
                 colorGradient1Hex.Text = color.ToString();
             }
-            if(Application.Current.Resources.Contains("Gradient2"))
+            if(appResources.Contains("Gradient2"))
             {
-                var color = (Color)Application.Current.Resources["Gradient1"];
-                colorGradient1Hex.Text = color.ToString();
+                var color = (Color)appResources["Gradient2"];
+                colorGradient2Hex.Text = color.ToString();
+            }
+        }
+
+        private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            // taken by https://github.com/xceedsoftware/wpftoolkit
+            var colorPicker = sender as Xceed.Wpf.Toolkit.ColorPicker;
+            if (colorPicker.SelectedColor.HasValue && colorPicker.Tag is string objectName)
+            {
+                Color newColor = colorPicker.SelectedColor.Value;
+                string hexValue = $"#{newColor.R:X2}{newColor.G:X2}{newColor.B:X2}";
+
+                // var define textBox with same tag
+                TextBox textBox = FindName($"{objectName}") as TextBox;
+                textBox.Text = hexValue.ToString();
+                CheckAndUpdateColor(objectName, hexValue, sender);
             }
         }
 
@@ -106,13 +189,11 @@ namespace Budget.Views
                 catch (FormatException)
                 {
                     ShowToolTip(sender, "Invalid color Format");
-                    // MessageBox.Show("Invalid color format");
                 }
             }
             else
             {
                 ShowToolTip(sender, "Invalid color Format");
-                //MessageBox.Show("Invalid color format");
             }
         }
 
@@ -147,11 +228,11 @@ namespace Budget.Views
 
             foreach (var itemName in ColorItems)
             {
-                if (Application.Current.Resources[itemName] is SolidColorBrush brush)
+                if (System.Windows.Application.Current.Resources[itemName] is SolidColorBrush brush)
                 {
                     colorValues.AppendLine($"{itemName}:{brush.Color}");
                 }
-                else if (Application.Current.Resources[itemName] is Color color)
+                else if (System.Windows.Application.Current.Resources[itemName] is Color color)
                 {
                     colorValues.AppendLine($"{itemName}:{color}");
                 }

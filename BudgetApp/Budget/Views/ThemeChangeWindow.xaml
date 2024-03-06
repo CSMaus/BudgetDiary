@@ -3,17 +3,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:Budget.Views"
+        MouseDown="Window_MouseDown"
         mc:Ignorable="d"
         Title="Update Theme" Height="380" Width="360"
         Opacity="1">
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" MinWidth="100"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -25,50 +35,66 @@
         <Border Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin="3">
                 <TextBlock Text="Hex Color" Style="{StaticResource TextBlockStyle}"/>
         </Border>
-        <Border Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Margin="3">
-                <TextBlock Text="RGB Color Settings" Style="{StaticResource TextBlockStyle}"/>
+        <Border Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="3">
+            <TextBlock Text="Pick the color" Style="{StaticResource TextBlockStyle}" />
         </Border>
-        
-        
-        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Foreground:" Width="115" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
-                <TextBox x:Name="colorForegroundHex" Grid.Row="0" Grid.Column="1" Width="80" Style="{StaticResource TextBoxStyle}" Tag="Foreground" TextChanged="ColorTextBox_TextChanged"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Main Background:" Width="115" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
-                <TextBox x:Name="colorMainBackgroundHex" Grid.Row="0" Grid.Column="1" Width="80" Style="{StaticResource TextBoxStyle}" Tag="MainBackground" TextChanged="ColorTextBox_TextChanged"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Background:" Width="115" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
-                <TextBox x:Name="colorBackgroundHex" Grid.Row="0" Grid.Column="1" Width="80" Style="{StaticResource TextBoxStyle}" Tag="Background" TextChanged="ColorTextBox_TextChanged"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Borders:" Width="115" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
-                <TextBox x:Name="colorBordersColorHex" Grid.Row="0" Grid.Column="1" Width="80" Style="{StaticResource TextBoxStyle}" Tag="BordersColor" TextChanged="ColorTextBox_TextChanged"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="OnPressed:" Width="115" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
-                <TextBox x:Name="colorOnPressedHex" Grid.Row="0" Grid.Column="1" Width="80" Style="{StaticResource TextBoxStyle}" Tag="OnPressed" TextChanged="ColorTextBox_TextChanged"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="OnSelected:" Width="115" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
-                <TextBox x:Name="colorOnSelectedHex" Grid.Row="0" Grid.Column="1" Width="80" Style="{StaticResource TextBoxStyle}" Tag="OnSelected" TextChanged="ColorTextBox_TextChanged"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Gradient 1:" Width="115" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
-                <TextBox x:Name="colorGradient1Hex" Grid.Row="0" Grid.Column="1" Width="80" Style="{StaticResource TextBoxStyle}" Tag="Gradient1" TextChanged="ColorTextBox_TextChanged"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Gradient 2:" Width="115" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
-                <TextBox x:Name="colorGradient2Hex" Grid.Row="0" Grid.Column="1" Width="80" Style="{StaticResource TextBoxStyle}" Tag="Gradient2" TextChanged="ColorTextBox_TextChanged"/>
-            </StackPanel>
-        </StackPanel>
 
-        <Button Content="Reset Theme" Grid.Row="2" Grid.Column="2" Margin="0,5,0,0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Click="ResetTheme_Click" Width="100" Style="{StaticResource BtnStyle}"/>
-        <Button Content="OK" Grid.Row="2" Grid.Column="0" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+        <TextBlock Text="Foreground:" Width="115" Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
+        <TextBlock Text="Main Background:" Width="115" Grid.Row="2" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
+        <TextBlock Text="Background:" Width="115" Grid.Row="3" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
+        <TextBlock Text="Borders:" Width="115" Grid.Row="4" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
+        <TextBlock Text="OnPressed:" Width="115" Grid.Row="5" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
+        <TextBlock Text="OnSelected:" Width="115" Grid.Row="6" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
+        <TextBlock Text="Gradient 1:" Width="115" Grid.Row="7" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
+        <TextBlock Text="Gradient 2:" Width="115" Grid.Row="8" Grid.Column="0" Style="{StaticResource TextBlockStyle}"/>
+        <TextBox x:Name="colorForegroundHex" Grid.Row="1" Grid.Column="1" Width="90" Style="{StaticResource TextBoxStyle}"     Tag="Foreground"      TextChanged="ColorTextBox_TextChanged"/>
+        <TextBox x:Name="colorMainBackgroundHex" Grid.Row="2" Grid.Column="1" Width="90" Style="{StaticResource TextBoxStyle}" Tag="MainBackground" TextChanged="ColorTextBox_TextChanged"/>
+        <TextBox x:Name="colorBackgroundHex" Grid.Row="3" Grid.Column="1" Width="90" Style="{StaticResource TextBoxStyle}"     Tag="Background"    TextChanged="ColorTextBox_TextChanged"/>
+        <TextBox x:Name="colorBordersColorHex" Grid.Row="4" Grid.Column="1" Width="90" Style="{StaticResource TextBoxStyle}"   Tag="BordersColor"  TextChanged="ColorTextBox_TextChanged"/>
+        <TextBox x:Name="colorOnPressedHex" Grid.Row="5" Grid.Column="1" Width="90" Style="{StaticResource TextBoxStyle}"      Tag="OnPressed"     TextChanged="ColorTextBox_TextChanged"/>
+        <TextBox x:Name="colorOnSelectedHex" Grid.Row="6" Grid.Column="1" Width="90" Style="{StaticResource TextBoxStyle}"     Tag="OnSelected"     TextChanged="ColorTextBox_TextChanged"/>
+        <TextBox x:Name="colorGradient1Hex" Grid.Row="7" Grid.Column="1" Width="90" Style="{StaticResource TextBoxStyle}"      Tag="Gradient1"     TextChanged="ColorTextBox_TextChanged"/>
+        <TextBox x:Name="colorGradient2Hex" Grid.Row="8" Grid.Column="1" Width="90" Style="{StaticResource TextBoxStyle}"      Tag="Gradient2"      TextChanged="ColorTextBox_TextChanged"/>
+
+        <xctk:ColorPicker Grid.Row="1" Grid.Column="2" Margin="5" Width="50" Tag="Foreground" SelectedColorChanged="ColorPicker_SelectedColorChanged"/>
+        <xctk:ColorPicker Grid.Row="2" Grid.Column="2" Margin="5" Width="50" Tag="MainBackground" SelectedColorChanged="ColorPicker_SelectedColorChanged"/>
+        <xctk:ColorPicker Grid.Row="3" Grid.Column="2" Margin="5" Width="50" Tag="Background" SelectedColorChanged="ColorPicker_SelectedColorChanged"/>
+        <xctk:ColorPicker Grid.Row="4" Grid.Column="2" Margin="5" Width="50" Tag="BordersColor" SelectedColorChanged="ColorPicker_SelectedColorChanged"/>
+        <xctk:ColorPicker Grid.Row="5" Grid.Column="2" Margin="5" Width="50" Tag="OnPressed" SelectedColorChanged="ColorPicker_SelectedColorChanged"/>
+        <xctk:ColorPicker Grid.Row="6" Grid.Column="2" Margin="5" Width="50" Tag="OnSelected" SelectedColorChanged="ColorPicker_SelectedColorChanged"/>
+        <xctk:ColorPicker Grid.Row="7" Grid.Column="2" Margin="5" Width="50" Tag="Gradient1" SelectedColorChanged="ColorPicker_SelectedColorChanged"/>
+        <xctk:ColorPicker Grid.Row="8" Grid.Column="2" Margin="5" Width="50"  Tag="Gradient2" SelectedColorChanged="ColorPicker_SelectedColorChanged"/>
+
+        <Button Grid.Column="4" Grid.Row="1" Style="{StaticResource BtnStyle}" Tag="Foreground" VerticalAlignment="Center" Width="20" Click="PickColor_Click">
+            <Image Source="Pen.cur"/>
+        </Button>
+        <Button Grid.Column="4" Grid.Row="2" Style="{StaticResource BtnStyle}" Tag="MainBackground" VerticalAlignment="Center" Width="20" Click="PickColor_Click">
+            <Image Source="Pen.cur"/>
+        </Button>
+        <Button Grid.Column="4" Grid.Row="3" Style="{StaticResource BtnStyle}" Tag="Background" VerticalAlignment="Center" Width="20" Click="PickColor_Click">
+            <Image Source="Pen.cur"/>
+        </Button>
+        <Button Grid.Column="4" Grid.Row="4" Style="{StaticResource BtnStyle}" Tag="BordersColor" VerticalAlignment="Center" Width="20" Click="PickColor_Click">
+            <Image Source="Pen.cur"/>
+        </Button>
+        <Button Grid.Column="4" Grid.Row="5" Style="{StaticResource BtnStyle}" Tag="OnPressed" VerticalAlignment="Center" Width="20" Click="PickColor_Click">
+            <Image Source="Pen.cur"/>
+        </Button>
+        <Button Grid.Column="4" Grid.Row="6" Style="{StaticResource BtnStyle}" Tag="OnSelected" VerticalAlignment="Center" Width="20" Click="PickColor_Click">
+            <Image Source="Pen.cur"/>
+        </Button>
+        <Button Grid.Column="4" Grid.Row="7" Style="{StaticResource BtnStyle}" Tag="Gradient1" VerticalAlignment="Center" Width="20" Click="PickColor_Click">
+            <Image Source="Pen.cur"/>
+        </Button>
+        <Button Grid.Column="4" Grid.Row="8" Style="{StaticResource BtnStyle}" Tag="Gradient2" VerticalAlignment="Center" Width="20" Click="PickColor_Click">
+            <Image Source="Pen.cur"/>
+        </Button>
+
+
+        <Button Content="Reset Theme" Grid.Row="9" Grid.Column="2" Margin="0,5,0,0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Click="ResetTheme_Click" Width="100" Style="{StaticResource BtnStyle}" Grid.ColumnSpan="2"/>
+        <Button Content="OK" Grid.Row="9" Grid.Column="0" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"
                 Click="OK_Click" Width="100" Style="{StaticResource BtnStyle}"/>
-
+        <Button Grid.Column="1" Grid.Row="9" Style="{StaticResource BtnStyle}" VerticalAlignment="Bottom" Width="80" Content="Pick Color" Click="PickColor_Click"/>
     </Grid>
 </Window>
