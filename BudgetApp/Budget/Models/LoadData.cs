@@ -45,7 +45,7 @@ namespace Budget.Models
             }
             else
             {
-                MessageBox.Show("Saved budget data not found.");
+                // MessageBox.Show("Saved budget data not found.");
             }
 
             return BudgetItemsTable;

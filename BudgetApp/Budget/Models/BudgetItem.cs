@@ -43,6 +43,16 @@ namespace Budget.Models
                 OnPropertyChanged("Category");
             }
         }
+        private string incomeType;
+        public string IncomeType
+        {
+            get { return incomeType; }
+            set
+            {
+                incomeType = value;
+                OnPropertyChanged("IncomeType");
+            }
+        }
         private string productName;
         public string ProductName
         {

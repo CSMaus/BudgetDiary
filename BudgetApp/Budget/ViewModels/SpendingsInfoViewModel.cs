@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media;
 
 
 // NuGet Google.Apis.Drive.v3
@@ -38,9 +39,14 @@ namespace Budget.ViewModels
 
         public SpendingsInfoViewModel()
         {
+            foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
+            {
+                Console.WriteLine(fontFamily.Source);
+            }
+
             budgetJsonFilePath = LoadData.EnsureDirectoryAndSaveFile();
             BudgetItems = LoadData.LoadDataFromLocalFile(budgetJsonFilePath);
-
+            Date = DateTime.Now;
             // TODO:
             // Read current date by accesinbg date from the system
             // Read current table from the temp file

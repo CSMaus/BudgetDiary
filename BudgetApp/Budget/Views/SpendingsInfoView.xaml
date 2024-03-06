@@ -17,28 +17,29 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Date" Margin="2"/>
+            <TextBlock Text="Date" Margin="2" Style="{StaticResource TextBlockStyle}"/>
             <DatePicker SelectedDate="{Binding Date, Mode=TwoWay}" Margin="2"/>
 
-            <TextBlock Text="Product Name" Margin="5, 2, 2, 2"/>
-            <TextBox Text="{Binding ProductName, Mode=TwoWay}" MinWidth="70" Margin="2"/>
-            
-            <TextBlock Text="Product Price" Margin="5, 2, 2, 2"/>
-            <TextBox Text="{Binding ProductPrice, Mode=TwoWay, StringFormat=F2}" MinWidth="70" Margin="2"/>
-            <TextBlock Text=" KRW" Margin="2"/>
-            <Button Content="Add" Command="{Binding AddItemCommand}" Margin="5, 2, 2, 2"/>
+            <TextBlock Text="Product Name" Margin="5, 2, 2, 2" Style="{StaticResource TextBlockStyle}"/>
+            <TextBox Text="{Binding ProductName, Mode=TwoWay}" MinWidth="70" Margin="2" Style="{StaticResource TextBoxStyle}" />
+
+            <TextBlock Text="Product Price" Margin="5, 2, 2, 2" Style="{StaticResource TextBlockStyle}"/>
+            <TextBox Text="{Binding ProductPrice, Mode=TwoWay, StringFormat=F2}" MinWidth="50" Margin="2" Style="{StaticResource TextBoxStyle}"/>
+
+            <TextBlock Text="KRW" Margin="0,2,2,2" Style="{StaticResource TextBlockStyle}"/>
+            <Button Content="Add" Command="{Binding AddItemCommand}" Margin="5, 2, 2, 2" Style="{StaticResource BtnStyle}" MinWidth="40"/>
         </StackPanel>
 
         <DataGrid ItemsSource="{Binding BudgetItems}" AutoGenerateColumns="False"
           CanUserResizeColumns="True" CanUserResizeRows="True" Grid.Row="1"
-          BorderThickness="1">
+          BorderThickness="1" Style="{StaticResource DataGridStyle}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="60"/>
-                <DataGridTextColumn Header="WeekDay" Binding="{Binding WeekDay}" Width="60"/>
-                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="65"/>
-                <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" Width="65"/>
+                <DataGridTextColumn Header="WeekDay" Binding="{Binding WeekDay}" Width="70"/>
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="70"/>
+                <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" Width="70"/>
                 <DataGridTextColumn Header="Price" Binding="{Binding ProductPrice}" Width="50"/>
-                <!-- Old version for expanding/collapsing items-->
+                <DataGridTextColumn Header="Income/Expenses" Binding="{Binding IncomeType}" Width="115"/>
                 <!--
                 <DataGridTemplateColumn Header="Details" Width="2*">
                     <DataGridTemplateColumn.CellTemplate>
