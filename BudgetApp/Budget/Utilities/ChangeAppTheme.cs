@@ -6,6 +6,7 @@ namespace Budget.Utilities
 {
     public static class ChangeAppTheme
     {
+        // Add few more standart themes (dark, light, nature (green), gray, night (dark, blue, space), etc.)
         public static void ResetColors()
         {
             ChangeColor("Foreground",     (Color)ColorConverter.ConvertFromString("#7D5A5A"));  // FromRgb(125, 90, 90));

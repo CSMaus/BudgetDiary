@@ -67,7 +67,8 @@
 
         <Button Content="Reset Theme" Grid.Row="2" Grid.Column="2" Margin="0,5,0,0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                 Click="ResetTheme_Click" Width="100" Style="{StaticResource BtnStyle}"/>
-
+        <Button Content="OK" Grid.Row="2" Grid.Column="0" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Click="OK_Click" Width="100" Style="{StaticResource BtnStyle}"/>
 
     </Grid>
 </Window>

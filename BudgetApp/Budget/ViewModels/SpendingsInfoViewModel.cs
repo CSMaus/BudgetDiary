@@ -1,12 +1,17 @@
 ﻿using Budget.Models;
+using Budget.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -43,6 +48,7 @@ namespace Budget.ViewModels
             {
                 Console.WriteLine(fontFamily.Source);
             }
+            LoadTheme();
 
             budgetJsonFilePath = LoadData.EnsureDirectoryAndSaveFile();
             BudgetItems = LoadData.LoadDataFromLocalFile(budgetJsonFilePath);
@@ -53,6 +59,38 @@ namespace Budget.ViewModels
             // write the current table to the temp file (for testing)
             // maybe choose json format for table? it's the best to work with tables and it can be used in SQL
             AddItemCommand = new RelayCommand(() => AddItem());
+        }
+
+        // for now I'll place theme loading here
+        public void LoadTheme()
+        {
+            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string appFolder = System.IO.Path.Combine(folderPath, "BudgetDiary");
+            string fileName = "ThemeColors.txt";
+            string fullPath = System.IO.Path.Combine(appFolder, fileName);
+
+            if (File.Exists(fullPath))
+            {
+                string[] lines = File.ReadAllLines(fullPath);
+
+                foreach (var line in lines)
+                {
+                    var parts = line.Split(':');
+                    if (parts.Length == 2)
+                    {
+                        string itemName = parts[0];
+                        string colorValue = parts[1];
+                        Color newColor = (Color)ColorConverter.ConvertFromString(colorValue);
+                        ChangeAppTheme.ChangeColor(itemName, newColor);
+                    }
+                }
+
+                // MessageBox.Show("Theme colors loaded successfully.");
+            }
+            else
+            {
+                // MessageBox.Show("Theme color file not found.");
+            }
         }
 
         public void AddItem()
