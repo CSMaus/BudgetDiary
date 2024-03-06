@@ -60,11 +60,13 @@ namespace Budget.ViewModels
             BudgetItems.Add(new BudgetItem 
             { 
                 Date = Date.Day + "." + Date.Month + "." + Date.Year,
-                WeekDay = Date.DayOfWeek.ToString(),
+                WeekDay = Date.DayOfWeek.ToString().Substring(0, 3),
                 Category = DefineCategory(ProductName),
                 ProductName = ProductName,
                 ProductPrice = ProductPrice
             });
+            ProductName = "";
+            ProductPrice = 0;
         }
 
         public string DefineCategory(string productName)

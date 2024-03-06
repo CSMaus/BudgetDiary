@@ -20,11 +20,18 @@ namespace Budget.Views
 {
     public partial class SpendingsInfoView : UserControl
     {
-        
         public SpendingsInfoView()
         {
             InitializeComponent();
             DataContext = new SpendingsInfoViewModel();
+        }
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var viewModel = DataContext as SpendingsInfoViewModel;
+                viewModel?.AddItemCommand.Execute(null);
+            }
         }
     }
 }

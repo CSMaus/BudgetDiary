@@ -58,6 +58,7 @@
     <Compile Include="Models\CategoryType.cs" />
     <Compile Include="Models\GDriveHelper.cs" />
     <Compile Include="Models\LoadData.cs" />
+    <Compile Include="Utilities\ChangeAppTheme.cs" />
     <Compile Include="ViewModels\AnalysisViewModel.cs" />
     <Compile Include="ViewModels\SpendingsInfoViewModel.cs" />
     <Compile Include="Views\AnalysisView.xaml.cs">
@@ -65,6 +66,9 @@
     </Compile>
     <Compile Include="Views\SpendingsInfoView.xaml.cs">
       <DependentUpon>SpendingsInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ThemeChangeWindow.xaml.cs">
+      <DependentUpon>ThemeChangeWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -93,6 +97,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SpendingsInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ThemeChangeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
