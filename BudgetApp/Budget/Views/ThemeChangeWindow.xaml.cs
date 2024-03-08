@@ -163,9 +163,13 @@ namespace Budget.Views
                 string hexValue = $"#{newColor.R:X2}{newColor.G:X2}{newColor.B:X2}";
 
                 // var define textBox with same tag
-                TextBox textBox = FindName($"{objectName}") as TextBox;
-                textBox.Text = hexValue.ToString();
-                CheckAndUpdateColor(objectName, hexValue, sender);
+               var textBlockTag = colorPicker.Tag.ToString();
+                TextBox textBox = FindName($"color{textBlockTag}Hex") as TextBox;
+                if (textBox != null)
+                {
+                    textBox.Text = hexValue.ToString();
+                    CheckAndUpdateColor(objectName, hexValue, sender);
+                }
             }
         }
 

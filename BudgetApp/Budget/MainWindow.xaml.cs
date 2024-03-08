@@ -1,4 +1,5 @@
 ﻿using Budget.Models;
+using Budget.ViewModels;
 using Budget.Views;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace Budget
 
             spendingsInfoView = new SpendingsInfoView();
             BudgetTable.Navigate(spendingsInfoView);
+            spendingsInfoView.DataContext = new SpendingsInfoViewModel();
 
             OpenThemeChangeWindowCommand = new RelayCommand(OpenThemeChangeWindow);
             var changeThemeButton = this.FindName("ChangeThemeButton") as Button;

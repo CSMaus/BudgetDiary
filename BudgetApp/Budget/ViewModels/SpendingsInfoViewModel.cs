@@ -37,8 +37,38 @@ namespace Budget.ViewModels
 
         public DateTime Date { get; set; }
 
-        public string ProductName { get; set; }
-        public float ProductPrice { get; set; }
+        private string productName = "Shit";
+        public string ProductName
+        {
+            get { return productName; }
+            set
+            {
+                productName = value;
+                OnPropertyChanged("ProductName");
+            }
+        }
+        private string category;
+
+        public string Category
+        {
+            get { return category; }
+            set
+            {
+                category = value;
+                OnPropertyChanged("Category");
+            }
+        }
+
+        private float productPrice = 5f;
+        public float ProductPrice
+        {
+            get { return productPrice; }
+            set
+            {
+                productPrice = value;
+                OnPropertyChanged(nameof(ProductPrice));
+            }
+        }
 
         public ICommand AddItemCommand { get; set; }
 
@@ -103,8 +133,6 @@ namespace Budget.ViewModels
                 ProductName = ProductName,
                 ProductPrice = ProductPrice
             });
-            ProductName = "";
-            ProductPrice = 0;
         }
 
         public string DefineCategory(string productName)
@@ -190,7 +218,7 @@ namespace Budget.ViewModels
             }
         }
 
-        // implement norify property changed
+        // implement notify property changed
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
