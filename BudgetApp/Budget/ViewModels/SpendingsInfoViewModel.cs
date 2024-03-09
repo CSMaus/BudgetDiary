@@ -71,6 +71,17 @@ namespace Budget.ViewModels
             "NN"
         };
 
+        private string _selectedCategory;
+        public string SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                _selectedCategory = value;
+                OnPropertyChanged(nameof(SelectedCategory));
+            }
+        }
+
         private float productPrice = 5f;
         public float ProductPrice
         {
@@ -91,7 +102,7 @@ namespace Budget.ViewModels
                 Console.WriteLine(fontFamily.Source);
             }
             LoadTheme();
-            Categories = new List<string>();
+            LoadCategoriesList();
 
             budgetJsonFilePath = LoadData.EnsureDirectoryAndSaveFile();
             BudgetItems = LoadData.LoadDataFromLocalFile(budgetJsonFilePath);
@@ -165,7 +176,7 @@ namespace Budget.ViewModels
             { 
                 Date = Date.Day + "." + Date.Month + "." + Date.Year,
                 WeekDay = Date.DayOfWeek.ToString().Substring(0, 3),
-                Category = DefineCategory(ProductName),
+                Category = SelectedCategory == "NN" ? DefineCategory(ProductName) : SelectedCategory,
                 ProductName = ProductName,
                 ProductPrice = ProductPrice
             });

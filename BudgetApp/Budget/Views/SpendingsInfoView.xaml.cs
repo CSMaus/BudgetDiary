@@ -23,7 +23,7 @@ namespace Budget.Views
         public SpendingsInfoView()
         {
             InitializeComponent();
-            this.DataContext = new SpendingsInfoViewModel();
+            DataContext = new SpendingsInfoViewModel();
         }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {

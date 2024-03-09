@@ -15,6 +15,7 @@
         <Setter Property="Margin" Value="0,3,0,0" />
         <Setter Property="Foreground" Value="{DynamicResource Foreground}"/>
         <Setter Property="Background" Value="{DynamicResource Background}" />
+        <Setter Property="FontFamily" Value="Comic Sans MS"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Padding" Value="5"/>
         <Setter Property="Template">
@@ -43,7 +44,7 @@
     <Style x:Key="BtnStyle" TargetType="Button">
         <Setter Property="Foreground" Value="{DynamicResource Foreground}"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="FontFamily" Value="Segoe UI Variable"/>
+        <Setter Property="FontFamily" Value="Comic Sans MS"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -119,6 +120,135 @@
         </Setter>
     </Style>
 
+    <!-- ComboBox styles -->
+    <Style x:Key="ComboBoxStyle_0" TargetType="ComboBox">
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource MainBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BordersColor}" />
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        <Setter Property="Padding" Value="5"/>
+    </Style>
+
+    <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+            <Border x:Name="Border" Grid.ColumnSpan="2"
+                    CornerRadius="0"
+                    Background="{DynamicResource MainBackground}"
+                    BorderBrush="{DynamicResource BordersColor}"
+                    BorderThickness="1" />
+            <Border Grid.Column="0"
+                    CornerRadius="0" 
+                    Margin="1" 
+                    Background="{DynamicResource MainBackground}" 
+                    BorderBrush="{DynamicResource BordersColor}"
+                    BorderThickness="0,0,1,0" />
+            <Path x:Name="Arrow"
+                  Grid.Column="1"     
+                  Fill="{DynamicResource Foreground}"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"/>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
+        <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
+    </ControlTemplate>
+    <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+        <Setter Property="MinWidth" Value="120"/>
+        <Setter Property="MinHeight" Value="20"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid>
+                        <ToggleButton Name="ToggleButton" 
+                                      Template="{StaticResource ComboBoxToggleButton}" 
+                                      Grid.Column="2" 
+                                      Focusable="false"
+                                      IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                                      ClickMode="Press"/>
+                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  
+                                          Content="{TemplateBinding SelectionBoxItem}"
+                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                          Margin="3,3,23,3"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Left" />
+                        <TextBox x:Name="PART_EditableTextBox"
+                                 Style="{x:Null}" 
+                                 Template="{StaticResource ComboBoxTextBox}" 
+                                 HorizontalAlignment="Left" 
+                                 VerticalAlignment="Center" 
+                                 Margin="3,3,23,3"
+                                 Focusable="True" 
+                                 Background="{DynamicResource MainBackground}"
+                                 Foreground="{DynamicResource Foreground}"
+                                 Visibility="Hidden"
+                                 IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                        <Popup Name="Popup"
+                               Placement="Bottom"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               AllowsTransparency="True" 
+                               Focusable="False"
+                               PopupAnimation="Slide">
+                            <Grid Name="DropDown"
+                                  SnapsToDevicePixels="True"                
+                                  MinWidth="{TemplateBinding ActualWidth}"
+                                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border x:Name="DropDownBorder"
+                                       Background="{DynamicResource Background}"
+                                       BorderThickness="1"
+                                       BorderBrush="{DynamicResource BordersColor}"/>
+                                <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                    <Border Name="Border"
+                            Padding="2"
+                            SnapsToDevicePixels="true">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource OnSelected}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{DynamicResource Foreground}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <!-- To remake this style fully: https://learn.microsoft.com/en-us/dotnet/desktop/wpf/controls/datepicker-styles-and-templates?view=netframeworkdesktop-4.8-->
     <Style TargetType="{x:Type DatePicker}">
@@ -127,7 +257,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource BordersColor}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="5"/>
-        <Setter Property="FontFamily" Value="Segoe UI Variable"/>
+        <Setter Property="FontFamily" Value="Comic Sans MS"/>
         <Setter Property="FontSize" Value="14"/>
     </Style>
 
