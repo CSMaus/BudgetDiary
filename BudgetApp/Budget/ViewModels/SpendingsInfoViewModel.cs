@@ -7,13 +7,11 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Speech.Recognition;
+using System.Diagnostics;
+using System.Windows.Controls;
 
 
 // NuGet Google.Apis.Drive.v3
@@ -94,6 +92,22 @@ namespace Budget.ViewModels
         }
 
         public ICommand AddItemCommand { get; set; }
+        public ICommand StartRecCommand { get; set; }
+
+
+        private SpeechRecognitionEngine recognizer;
+        private bool isRecognizing;
+        private string _recognizedText;
+
+        public string RecognizedText
+        {
+            get => _recognizedText;
+            set
+            {
+                _recognizedText = value;
+                OnPropertyChanged(nameof(RecognizedText));
+            }
+        }
 
         public SpendingsInfoViewModel()
         {
@@ -112,9 +126,37 @@ namespace Budget.ViewModels
             // Read current table from the temp file
             // write the current table to the temp file (for testing)
             // maybe choose json format for table? it's the best to work with tables and it can be used in SQL
+
+            // TODO: speech recognition into text
+            // Parse the text and ectrude the data into BudgetItem parts
+            // Microsoft.CognitiveServices.Speech
             AddItemCommand = new RelayCommand(() => AddItem());
+
+            // speech
+            StartRecCommand = new RelayCommand(() => StartRec());
+            SetupSpeechRecognition();
+            isRecognizing = false;
         }
-        
+        private void SetupSpeechRecognition()
+        {
+            if (SpeechRecognitionEngine.InstalledRecognizers().Count > 1)
+            {
+                recognizer = new SpeechRecognitionEngine(SpeechRecognitionEngine.InstalledRecognizers()[1]);
+                recognizer.SetInputToDefaultAudioDevice();
+            }
+            else
+            {
+                return;
+            }
+
+            recognizer.LoadGrammar(new DictationGrammar());
+            recognizer.SpeechRecognized += Recognizer_SpeechRecognized;
+            // 1 Open Settings (Win + I)
+            // 2 Time & Language
+            // 3 Language & Region
+            // 4 Install Language Features - speech recognition
+        }
+
         public void LoadCategoriesList()
         {
             string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -161,12 +203,6 @@ namespace Budget.ViewModels
                         ChangeAppTheme.ChangeColor(itemName, newColor);
                     }
                 }
-
-                // MessageBox.Show("Theme colors loaded successfully.");
-            }
-            else
-            {
-                // MessageBox.Show("Theme color file not found.");
             }
         }
 
@@ -181,6 +217,29 @@ namespace Budget.ViewModels
                 ProductPrice = ProductPrice
             });
         }
+
+        public void StartRec()
+        {
+            if (!isRecognizing)
+            {
+                // SetInputToDefaultAudioDevice if a microphone is connected to the system,
+                // otherwise use SetInputToWaveFile, SetInputToWaveStream or
+                // SetInputToAudioStream to perform speech recognition from pre-recorded audio.'
+                recognizer.RecognizeAsync(RecognizeMode.Multiple);
+                isRecognizing = true;
+            }
+            else
+            {
+                recognizer.RecognizeAsyncStop();
+                isRecognizing = false;
+            }
+        }
+        private void Recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            RecognizedText += e.Result.Text + " ";
+            Console.WriteLine(e.Result.Text);
+        }
+
 
         public string DefineCategory(string productName)
         {

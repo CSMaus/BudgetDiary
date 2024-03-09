@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Budget.Views"
              mc:Ignorable="d" KeyDown="Window_KeyDown"
-             d:DesignHeight="450" d:DesignWidth="700">
+             d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -32,6 +32,7 @@
                      SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
                      DisplayMemberPath="." />
             <Button Content="Add" Command="{Binding AddItemCommand}" Margin="5, 2, 2, 2" Style="{StaticResource BtnStyle}" MinWidth="40" ToolTip="Press Enter to add"/>
+            <Button Content="Rec" Command="{Binding StartRecCommand}" Margin="5, 2, 2, 2" Style="{StaticResource BtnStyle}" MinWidth="40" ToolTip="Press Enter to add"/>
         </StackPanel>
 
         <DataGrid ItemsSource="{Binding BudgetItems}" AutoGenerateColumns="False"
