@@ -47,17 +47,29 @@ namespace Budget.ViewModels
                 OnPropertyChanged("ProductName");
             }
         }
-        private string category;
+        public List<string> Categories { get; set; }
 
-        public string Category
+        private List<string> StandartCategories = new List<string>() 
         {
-            get { return category; }
-            set
-            {
-                category = value;
-                OnPropertyChanged("Category");
-            }
-        }
+            "Income",
+            "Entertainment",
+            "Games",
+            "Hobbies",
+            "Shopping",
+            "Subscriptions",
+            "Health",
+            "Fitness",
+            "Food ",
+            "Investments",
+            "Transport",
+            "Fees",
+            "Taxes",
+            "Travel",
+            "Bills",
+            "Gifts & Donations",
+            "Education",
+            "NN"
+        };
 
         private float productPrice = 5f;
         public float ProductPrice
@@ -79,6 +91,7 @@ namespace Budget.ViewModels
                 Console.WriteLine(fontFamily.Source);
             }
             LoadTheme();
+            Categories = new List<string>();
 
             budgetJsonFilePath = LoadData.EnsureDirectoryAndSaveFile();
             BudgetItems = LoadData.LoadDataFromLocalFile(budgetJsonFilePath);
@@ -89,6 +102,29 @@ namespace Budget.ViewModels
             // write the current table to the temp file (for testing)
             // maybe choose json format for table? it's the best to work with tables and it can be used in SQL
             AddItemCommand = new RelayCommand(() => AddItem());
+        }
+        
+        public void LoadCategoriesList()
+        {
+            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string appFolder = System.IO.Path.Combine(folderPath, "BudgetDiary");
+            string fileName = "Categories.txt";
+            string fullPath = System.IO.Path.Combine(appFolder, fileName);
+
+            if (!Directory.Exists(appFolder))
+                Directory.CreateDirectory(appFolder);
+
+            Categories = File.Exists(fullPath) ? File.ReadAllLines(fullPath).ToList() : new List<string>(StandartCategories);
+        }
+
+        public void SaveCategoriesList()
+        {
+            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string appFolder = Path.Combine(folderPath, "BudgetDiary");
+            string fileName = "Categories.txt";
+            string fullPath = Path.Combine(appFolder, fileName);
+
+            File.WriteAllLines(fullPath, Categories);
         }
 
         // for now I'll place theme loading here

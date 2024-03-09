@@ -27,9 +27,11 @@
             <TextBox Text="{Binding ProductPrice}" MinWidth="50" Margin="2" Style="{StaticResource TextBoxStyle}"/>
             <!--<TextBlock Text="KRW" Margin="0,2,2,2" Style="{StaticResource TextBlockStyle}"/>
             -->
-            <TextBlock Text="Category" Margin="5, 2, 2, 2" Style="{StaticResource TextBlockStyle}"/>
-            <TextBox Text="{Binding Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" Margin="2" Style="{StaticResource TextBoxStyle}"/>
-
+            <!--<TextBlock Text="Category" Margin="5, 2, 2, 2" Style="{StaticResource TextBlockStyle}"/>
+                <TextBox Text="{Binding Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        MinWidth="80" Margin="2" Style="{StaticResource TextBoxStyle}"/>
+            -->
+            
             <Button Content="Add" Command="{Binding AddItemCommand}" Margin="5, 2, 2, 2" Style="{StaticResource BtnStyle}" MinWidth="40" ToolTip="Press Enter to add"/>
         </StackPanel>
 

@@ -163,7 +163,7 @@ namespace Budget.Views
                 string hexValue = $"#{newColor.R:X2}{newColor.G:X2}{newColor.B:X2}";
 
                 // var define textBox with same tag
-               var textBlockTag = colorPicker.Tag.ToString();
+                var textBlockTag = colorPicker.Tag.ToString();
                 TextBox textBox = FindName($"color{textBlockTag}Hex") as TextBox;
                 if (textBox != null)
                 {

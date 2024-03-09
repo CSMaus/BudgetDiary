@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Budget.Views"
         MouseDown="Window_MouseDown"
         mc:Ignorable="d"
-        Title="Update Theme" Height="380" Width="360"
+        Title="Update Theme" Height="380" Width="360" MinHeight="380" MinWidth="360"
         Opacity="1">
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
