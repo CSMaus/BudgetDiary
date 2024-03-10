@@ -111,10 +111,10 @@ namespace Budget.ViewModels
 
         public SpendingsInfoViewModel()
         {
-            foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
-            {
-                Console.WriteLine(fontFamily.Source);
-            }
+            //foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
+            //{
+                //Console.WriteLine(fontFamily.Source);
+            //}
             LoadTheme();
             LoadCategoriesList();
 
@@ -132,13 +132,22 @@ namespace Budget.ViewModels
             // Microsoft.CognitiveServices.Speech
             AddItemCommand = new RelayCommand(() => AddItem());
 
-            // speech
+            // speech 
             StartRecCommand = new RelayCommand(() => StartRec());
             SetupSpeechRecognition();
             isRecognizing = false;
         }
         private void SetupSpeechRecognition()
         {
+            // get SpeechRecognitionEngine.InstalledRecognizers() as list of installed recognizers
+
+            var installedRecognizers = SpeechRecognitionEngine.InstalledRecognizers().ToList();
+            Console.WriteLine("Installed recognizers:");
+            for (int i = 0; i < installedRecognizers.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}: {installedRecognizers[i].Name} - {installedRecognizers[i].Culture}");
+            }
+
             if (SpeechRecognitionEngine.InstalledRecognizers().Count > 1)
             {
                 recognizer = new SpeechRecognitionEngine(SpeechRecognitionEngine.InstalledRecognizers()[1]);
