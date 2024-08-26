@@ -333,13 +333,10 @@ namespace Budget.ViewModels
             }
         }
 
-        // implement notify property changed
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
-
 }
